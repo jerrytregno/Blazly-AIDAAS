@@ -1,5 +1,4 @@
 import { initializeApp } from 'firebase/app'
-import { getAI, getGenerativeModel, GoogleAIBackend } from 'firebase/ai'
 import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -13,9 +12,3 @@ const firebaseConfig = {
 
 export const firebaseApp = initializeApp(firebaseConfig)
 export const db = getFirestore(firebaseApp)
-
-const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() })
-
-export function getAiModel(model = 'gemini-3.5-flash-lite') {
-  return getGenerativeModel(ai, { model })
-}
