@@ -107,10 +107,7 @@ export function AssessmentModal({ open, onClose }: Props) {
         </button>
 
         <div className="border-b border-line px-4 pb-4 pt-6 sm:px-8 sm:pb-5 sm:pt-7">
-          <p className="text-xs font-semibold tracking-[0.18em] text-brand uppercase">
-            Primary CTA
-          </p>
-          <h2 id="assessment-title" className="mt-2 pr-10 text-xl font-bold tracking-tight text-balance text-ink sm:text-2xl">
+          <h2 id="assessment-title" className="pr-10 text-xl font-bold tracking-tight text-balance text-ink sm:text-2xl">
             Request an AI Discoverability Assessment
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-ink-soft">

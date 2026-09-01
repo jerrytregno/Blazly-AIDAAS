@@ -18,6 +18,7 @@ import {
   Monitor,
   Network,
   Package,
+  Play,
   Radio,
   RefreshCw,
   Search,
@@ -32,6 +33,7 @@ import {
   Users,
 } from 'lucide-react'
 import { type FormEvent, type ReactNode, useState } from 'react'
+import videoThumbnail from './assets/video-thumbnail.png'
 import { AssessmentModal } from './components/AssessmentModal'
 import { analyzeWebsite, type AnalyzeResult } from './lib/analyzeWebsite'
 
@@ -191,20 +193,40 @@ function PreviewCard() {
 }
 
 function VideoSection() {
+  const [playing, setPlaying] = useState(false)
+
   return (
     <section className="mx-auto max-w-5xl px-4 py-12 sm:px-8 sm:py-20">
       <h2 className="text-center text-2xl font-extrabold tracking-tight text-balance text-ink sm:text-4xl">
         See How AI Sees Your Business
       </h2>
-      <div className="mt-10 overflow-hidden rounded-2xl border border-line bg-[#d3d3d3] shadow-sm">
-        <div className="relative aspect-video w-full bg-[#c8c8c8]">
-          <iframe
-            title="AI Discoverability demo"
-            src={VIDEO_SRC}
-            className="absolute inset-0 h-full w-full border-0"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-          />
+      <div className="mt-10 overflow-hidden rounded-2xl border border-line shadow-sm">
+        <div className="relative aspect-video w-full bg-ink">
+          {playing ? (
+            <iframe
+              title="AI Discoverability demo"
+              src={VIDEO_SRC}
+              className="absolute inset-0 h-full w-full border-0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setPlaying(true)}
+              className="group absolute inset-0 flex items-center justify-center"
+              aria-label="Play video"
+            >
+              <img
+                src={videoThumbnail}
+                alt="Blazly AI-DAAS — AI Discoverability as a Service"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-brand shadow-lg transition group-hover:scale-105 group-hover:bg-white sm:h-20 sm:w-20">
+                <Play size={28} className="ml-1 fill-brand" />
+              </span>
+            </button>
+          )}
         </div>
       </div>
       <div className="mt-10">
