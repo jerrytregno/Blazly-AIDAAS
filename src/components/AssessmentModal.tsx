@@ -86,12 +86,12 @@ export function AssessmentModal({ open, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-ink/55 px-4 py-10 backdrop-blur-[2px]"
+      className="fixed inset-0 z-50 flex items-end justify-center overflow-y-auto overscroll-contain bg-ink/55 px-0 py-0 backdrop-blur-[2px] sm:items-center sm:px-4 sm:py-8"
       onClick={onClose}
       role="presentation"
     >
       <div
-        className="relative w-full max-w-xl rounded-2xl bg-white shadow-2xl shadow-brand/20"
+        className="relative max-h-[min(94dvh,880px)] w-full max-w-xl overflow-y-auto overscroll-contain rounded-t-3xl bg-white shadow-2xl shadow-brand/20 sm:rounded-2xl"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -100,17 +100,17 @@ export function AssessmentModal({ open, onClose }: Props) {
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full p-2 text-ink-soft transition hover:bg-surface hover:text-ink"
+          className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full text-ink-soft transition hover:bg-surface hover:text-ink sm:right-4 sm:top-4"
           aria-label="Close"
         >
           <X size={18} />
         </button>
 
-        <div className="border-b border-line px-6 pb-5 pt-7 sm:px-8">
+        <div className="border-b border-line px-4 pb-4 pt-6 sm:px-8 sm:pb-5 sm:pt-7">
           <p className="text-xs font-semibold tracking-[0.18em] text-brand uppercase">
             Primary CTA
           </p>
-          <h2 id="assessment-title" className="mt-2 text-2xl font-bold tracking-tight text-ink">
+          <h2 id="assessment-title" className="mt-2 pr-10 text-xl font-bold tracking-tight text-balance text-ink sm:text-2xl">
             Request an AI Discoverability Assessment
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-ink-soft">
@@ -120,7 +120,7 @@ export function AssessmentModal({ open, onClose }: Props) {
         </div>
 
         {submitted ? (
-          <div className="px-6 py-12 text-center sm:px-8">
+          <div className="px-4 py-10 text-center sm:px-8 sm:py-12">
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-soft text-brand">
               ✓
             </div>
@@ -137,7 +137,7 @@ export function AssessmentModal({ open, onClose }: Props) {
             </button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-7 px-6 py-6 sm:px-8">
+          <form onSubmit={handleSubmit} className="space-y-6 px-4 py-5 sm:space-y-7 sm:px-8 sm:py-6">
             <fieldset className="space-y-4">
               <legend className="text-sm font-bold text-ink">Contact</legend>
               <Field label="Full Name" required placeholder="Your name" name="fullName" />
@@ -170,7 +170,7 @@ export function AssessmentModal({ open, onClose }: Props) {
                 <p className="mb-2 text-sm font-medium text-ink">
                   What would you like to assess? <span className="text-brand">*</span>
                 </p>
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                <div className="grid grid-cols-2 gap-2">
                   {assessOptions.map((opt) => (
                     <CheckChip
                       key={opt}
@@ -188,7 +188,7 @@ export function AssessmentModal({ open, onClose }: Props) {
                   {objectiveOptions.map((opt) => (
                     <label
                       key={opt}
-                      className="flex cursor-pointer items-start gap-2.5 rounded-lg border border-line px-3 py-2.5 text-sm text-ink transition hover:border-brand/30"
+                      className="flex min-h-11 cursor-pointer items-start gap-2.5 rounded-lg border border-line px-3 py-2.5 text-sm text-ink transition hover:border-brand/30"
                     >
                       <input
                         type="checkbox"
@@ -210,7 +210,7 @@ export function AssessmentModal({ open, onClose }: Props) {
                   name="notes"
                   rows={4}
                   placeholder="Tell us briefly about your business or what you're trying to achieve..."
-                  className="w-full resize-y rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none placeholder:text-ink-soft/70 focus:border-brand focus:ring-2 focus:ring-brand/15"
+                  className="w-full resize-y rounded-xl border border-line bg-white px-3.5 py-3 text-base text-ink outline-none placeholder:text-ink-soft/70 focus:border-brand focus:ring-2 focus:ring-brand/15 sm:py-2.5 sm:text-sm"
                 />
               </label>
             </fieldset>
@@ -222,11 +222,11 @@ export function AssessmentModal({ open, onClose }: Props) {
               <button
                 type="submit"
                 disabled={submitting}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-brand-bright to-brand-deep px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
+                className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-linear-to-r from-brand-bright to-brand-deep px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {submitting ? 'Submitting…' : 'Request My Assessment →'}
               </button>
-              <p className="mt-3 text-center text-xs text-ink-soft">
+              <p className="mt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center text-xs text-ink-soft">
                 We&apos;ll review your information and get back to you about the assessment.
               </p>
             </div>
@@ -261,7 +261,7 @@ function Field({
         name={name}
         required={required}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none placeholder:text-ink-soft/70 focus:border-brand focus:ring-2 focus:ring-brand/15"
+        className="w-full rounded-xl border border-line bg-white px-3.5 py-3 text-base text-ink outline-none placeholder:text-ink-soft/70 focus:border-brand focus:ring-2 focus:ring-brand/15 sm:py-2.5 sm:text-sm"
       />
     </label>
   )
@@ -278,7 +278,7 @@ function CheckChip({
 }) {
   return (
     <label
-      className={`flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 text-sm transition ${
+      className={`flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border px-3 py-2.5 text-sm transition ${
         checked
           ? 'border-brand bg-brand-soft text-brand'
           : 'border-line text-ink hover:border-brand/30'

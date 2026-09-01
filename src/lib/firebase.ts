@@ -16,6 +16,6 @@ export const db = getFirestore(firebaseApp)
 
 const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() })
 
-export function getGeminiModel(model = 'gemini-2.5-flash') {
+export function getAiModel(model = 'gemini-3.5-flash-lite') {
   return getGenerativeModel(ai, { model })
 }

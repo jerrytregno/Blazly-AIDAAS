@@ -1,5 +1,5 @@
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
-import { db, getGeminiModel } from './firebase'
+import { db, getAiModel } from './firebase'
 
 export type AnalyzeResult = {
   domain: string
@@ -7,6 +7,14 @@ export type AnalyzeResult = {
   summary: string
   prompts: string[]
   recommendations: string[]
+}
+
+const MODELS = ['gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-3.5-flash']
+
+function hideProviderNames(text: string) {
+  return text
+    .replace(/\bGoogle Gemini\b/gi, 'AI assistants')
+    .replace(/\bGemini\b/gi, 'AI assistants')
 }
 
 function extractJson(text: string): Omit<AnalyzeResult, 'domain'> | null {
@@ -23,22 +31,24 @@ function extractJson(text: string): Omit<AnalyzeResult, 'domain'> | null {
 }
 
 function normalizeResult(domain: string, parsed: Omit<AnalyzeResult, 'domain'>): AnalyzeResult {
-  const prompts = (parsed.prompts || []).map((p) => String(p).trim()).filter(Boolean)
+  const prompts = (parsed.prompts || [])
+    .map((p) => hideProviderNames(String(p).trim()))
+    .filter(Boolean)
   const recommendations = (parsed.recommendations || [])
-    .map((r) => String(r).trim())
+    .map((r) => hideProviderNames(String(r).trim()))
     .filter(Boolean)
   const score = Math.max(0, Math.min(100, Number(parsed.score) || 0))
 
   if (prompts.length < 3) {
-    throw new Error('Analysis returned fewer than 3 search prompts.')
+    throw new Error('Analysis returned incomplete results.')
   }
 
   return {
     domain,
     score,
-    summary:
-      parsed.summary?.trim() ||
-      `${domain} currently scores ${score}/100 for AI discoverability.`,
+    summary: hideProviderNames(
+      parsed.summary?.trim() || `${domain} currently scores ${score}/100 for AI discoverability.`,
+    ),
     prompts: prompts.slice(0, 4),
     recommendations: recommendations.slice(0, 3),
   }
@@ -57,18 +67,18 @@ Return ONLY valid JSON with this exact shape:
 }
 
 Rules:
-- prompts must be realistic buyer questions people would ask ChatGPT/Gemini/Perplexity (at least 3).
+- prompts must be realistic buyer questions people would ask ChatGPT, Perplexity, or Claude (at least 3).
 - recommendations must be concrete and specific to improving AI discoverability.
+- Never mention hidden model provider names in the JSON values.
 - Do not include markdown outside the JSON.`
 }
 
 async function analyzeWithFirebaseAi(domain: string): Promise<AnalyzeResult> {
-  const models = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-3.5-flash-lite']
-  let lastError = 'Firebase Gemini request failed'
+  let lastError = 'Unable to analyze this website right now.'
 
-  for (const modelName of models) {
+  for (const modelName of MODELS) {
     try {
-      const model = getGeminiModel(modelName)
+      const model = getAiModel(modelName)
       const response = await model.generateContent({
         contents: [{ role: 'user', parts: [{ text: buildPrompt(domain) }] }],
         generationConfig: {
@@ -79,12 +89,12 @@ async function analyzeWithFirebaseAi(domain: string): Promise<AnalyzeResult> {
       const text = response.response.text()
       const parsed = extractJson(text)
       if (!parsed) {
-        lastError = 'Could not parse Gemini response'
+        lastError = 'Could not read the analysis response.'
         continue
       }
       return normalizeResult(domain, parsed)
     } catch (error) {
-      lastError = error instanceof Error ? error.message : lastError
+      lastError = error instanceof Error ? hideProviderNames(error.message) : lastError
     }
   }
 
@@ -97,20 +107,38 @@ async function analyzeWithLocalApi(domain: string): Promise<AnalyzeResult> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ website: domain }),
   })
-  const data = (await response.json()) as AnalyzeResult & { error?: string }
+  const raw = await response.text()
+  let data: (AnalyzeResult & { error?: string }) | null = null
+  try {
+    data = JSON.parse(raw) as AnalyzeResult & { error?: string }
+  } catch {
+    throw new Error('Unable to analyze this website right now.')
+  }
   if (!response.ok) {
-    throw new Error(data.error || 'Unable to analyze this website right now.')
+    throw new Error(hideProviderNames(data.error || 'Unable to analyze this website right now.'))
   }
   return normalizeResult(domain, data)
 }
 
 export async function analyzeWebsite(domain: string): Promise<AnalyzeResult> {
-  let result: AnalyzeResult
+  const attempts = import.meta.env.DEV
+    ? [analyzeWithLocalApi, analyzeWithFirebaseAi]
+    : [analyzeWithFirebaseAi, analyzeWithLocalApi]
 
-  try {
-    result = await analyzeWithFirebaseAi(domain)
-  } catch {
-    result = await analyzeWithLocalApi(domain)
+  let result: AnalyzeResult | undefined
+  let lastError: Error | undefined
+
+  for (const attempt of attempts) {
+    try {
+      result = await attempt(domain)
+      break
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error('Unable to analyze this website right now.')
+    }
+  }
+
+  if (!result) {
+    throw lastError ?? new Error('Unable to analyze this website right now.')
   }
 
   try {

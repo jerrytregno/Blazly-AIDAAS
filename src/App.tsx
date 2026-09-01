@@ -42,7 +42,7 @@ export default function App() {
   const [modalOpen, setModalOpen] = useState(false)
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white text-ink">
+    <div className="min-h-screen overflow-x-clip bg-white text-ink">
       <Hero onCta={() => setModalOpen(true)} />
       <VideoSection />
       <AuthoritySection />
@@ -59,32 +59,32 @@ export default function App() {
 
 function Hero({ onCta }: { onCta: () => void }) {
   return (
-    <section className="relative mx-auto max-w-6xl px-5 pb-16 pt-10 sm:px-8 lg:pb-24 lg:pt-14">
-      <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
-        <div>
+    <section className="relative mx-auto max-w-6xl px-4 pb-12 pt-8 sm:px-8 sm:pb-16 sm:pt-10 lg:pb-24 lg:pt-14">
+      <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className="min-w-0">
           <p className="text-xs font-bold tracking-[0.22em] text-brand uppercase">AI-DAAS</p>
-          <p className="mt-2 text-sm font-bold tracking-[0.08em] text-ink uppercase sm:text-[15px]">
+          <p className="mt-2 text-xs font-bold tracking-[0.06em] text-ink uppercase sm:text-[15px] sm:tracking-[0.08em]">
             AI Discoverability as a Service
           </p>
-          <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.35rem]">
+          <h1 className="mt-4 text-[1.75rem] font-extrabold leading-[1.15] tracking-tight text-balance text-ink sm:mt-5 sm:text-5xl lg:text-[3.35rem] lg:leading-[1.08]">
             Make Your Business Discoverable to{' '}
             <span className="text-brand">AI.</span>
           </h1>
-          <p className="mt-5 max-w-md text-[15px] leading-relaxed text-ink-soft">
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-soft sm:mt-5 sm:text-[15px]">
             AI is becoming a new layer of discovery. Your customers are already asking it who to
             trust, what to choose, and where to buy.
           </p>
-          <p className="mt-3 max-w-md text-[15px] leading-relaxed text-ink-soft">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-soft sm:text-[15px]">
             Blazly AI-DAAS helps your business become discoverable, understandable, and relevant to
             AI.
           </p>
           <button
             type="button"
             onClick={onCta}
-            className="mt-8 inline-flex w-full max-w-md items-center justify-center gap-2 rounded-xl bg-linear-to-r from-brand-bright via-brand to-brand-deep px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/30 transition hover:brightness-110 sm:w-auto"
+            className="mt-7 inline-flex min-h-12 w-full max-w-md items-center justify-center gap-2 rounded-xl bg-linear-to-r from-brand-bright via-brand to-brand-deep px-4 py-3 text-center text-sm leading-snug font-semibold text-white shadow-lg shadow-brand/30 transition hover:brightness-110 sm:mt-8 sm:w-auto sm:px-6 sm:py-3.5"
           >
-            Request an AI Discoverability Assessment
-            <ArrowRight size={16} />
+            <span>Request an AI Discoverability Assessment</span>
+            <ArrowRight size={16} className="shrink-0" />
           </button>
         </div>
 
@@ -110,8 +110,8 @@ function PreviewCard() {
   ]
 
   return (
-    <div className="rounded-2xl border border-line bg-white p-5 shadow-[0_20px_50px_-24px_rgba(77,11,182,0.35)] sm:p-6">
-      <div className="flex items-center gap-2">
+    <div className="min-w-0 rounded-2xl border border-line bg-white p-4 shadow-[0_20px_50px_-24px_rgba(77,11,182,0.35)] sm:p-6">
+      <div className="flex min-w-0 flex-wrap items-center gap-2">
         <h2 className="text-sm font-semibold text-ink">AI Discoverability Preview</h2>
         <span className="rounded-full bg-brand-soft px-2 py-0.5 text-[10px] font-semibold tracking-wide text-brand uppercase">
           Preview
@@ -152,12 +152,12 @@ function PreviewCard() {
 
         <ul className="space-y-3">
           {metrics.map(({ icon: Icon, label, status, tone }) => (
-            <li key={label} className="flex items-center gap-2.5 text-xs">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
+            <li key={label} className="flex items-start gap-2.5 text-xs sm:items-center">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand sm:h-7 sm:w-7">
                 <Icon size={14} />
               </span>
-              <span className="flex-1 text-ink-soft">{label}</span>
-              <span className={`font-semibold ${tone}`}>{status}</span>
+              <span className="min-w-0 flex-1 leading-snug text-ink-soft">{label}</span>
+              <span className={`shrink-0 text-right font-semibold ${tone}`}>{status}</span>
             </li>
           ))}
         </ul>
@@ -165,20 +165,21 @@ function PreviewCard() {
 
       <div className="mt-5 border-t border-line pt-4">
         <p className="mb-2.5 text-xs font-medium text-ink-soft">Top queries where you appear</p>
-        <div className="flex items-center gap-2 overflow-hidden">
-          <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto pb-1">
+        <div className="relative flex items-center gap-2 overflow-hidden">
+          <div className="no-scrollbar flex min-w-0 flex-1 snap-x snap-mandatory gap-2 overflow-x-auto pb-1 [-webkit-overflow-scrolling:touch]">
             {queries.map((q) => (
               <span
                 key={q}
-                className="shrink-0 rounded-lg bg-surface px-2.5 py-2 text-[11px] text-ink-soft"
+                className="snap-start shrink-0 rounded-lg bg-surface px-2.5 py-2 text-[11px] text-ink-soft"
               >
                 &ldquo;{q}&rdquo;
               </span>
             ))}
           </div>
+          <div className="pointer-events-none absolute top-0 right-12 bottom-1 w-8 bg-linear-to-l from-white to-transparent sm:right-14" />
           <button
             type="button"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line text-brand"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-brand"
             aria-label="Next queries"
           >
             <ChevronRight size={16} />
@@ -191,8 +192,8 @@ function PreviewCard() {
 
 function VideoSection() {
   return (
-    <section className="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-20">
-      <h2 className="text-center text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+    <section className="mx-auto max-w-5xl px-4 py-12 sm:px-8 sm:py-20">
+      <h2 className="text-center text-2xl font-extrabold tracking-tight text-balance text-ink sm:text-4xl">
         See How AI Sees Your Business
       </h2>
       <div className="mt-10 overflow-hidden rounded-2xl border border-line bg-[#d3d3d3] shadow-sm">
@@ -217,11 +218,11 @@ function VideoSection() {
 
 function AuthoritySection() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-b from-[#f6f3ff] via-white to-white px-5 py-16 sm:px-8 sm:py-24">
+    <section className="relative overflow-hidden bg-linear-to-b from-[#f6f3ff] via-white to-white px-4 py-12 sm:px-8 sm:py-24">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-brand-glow/40 to-transparent" />
-      <div className="relative mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-2 lg:gap-16">
-        <div>
-          <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+      <div className="relative mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="min-w-0">
+          <h2 className="text-2xl font-extrabold leading-tight tracking-tight text-balance text-ink sm:text-4xl">
             Your business has authority.{' '}
             <span className="text-brand">Does AI know it?</span>
           </h2>
@@ -246,7 +247,7 @@ function AuthoritySection() {
           </div>
         </div>
 
-        <div className="relative flex flex-col items-stretch gap-4 sm:flex-row sm:items-start">
+        <div className="relative flex flex-col items-stretch gap-3 sm:flex-row sm:items-start sm:gap-4">
           <CompareCard
             badge="Traditional Search"
             badgeClass="bg-ink"
@@ -258,9 +259,9 @@ function AuthoritySection() {
               { icon: FileText, label: 'Research' },
             ]}
           />
-          <div className="absolute top-1/2 left-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 sm:flex">
+          <div className="z-10 flex justify-center sm:absolute sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand text-white shadow-lg shadow-brand/40">
-              <ArrowRight size={16} />
+              <ArrowRight size={16} className="rotate-90 sm:rotate-0" />
             </span>
           </div>
           <CompareCard
@@ -295,7 +296,7 @@ function CompareCard({
   steps: { icon: typeof Search; label: string }[]
 }) {
   return (
-    <div className="relative flex-1 overflow-hidden rounded-2xl border border-line bg-white p-5 shadow-[0_16px_40px_-28px_rgba(33,3,84,0.45)]">
+    <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl border border-line bg-white p-4 shadow-[0_16px_40px_-28px_rgba(33,3,84,0.45)] sm:p-5">
       <span
         className={`inline-block rounded-full px-3 py-1 text-[10px] font-bold tracking-[0.12em] text-white uppercase ${badgeClass}`}
       >
@@ -361,16 +362,16 @@ function FrameworkSection() {
   ]
 
   return (
-    <section className="bg-surface px-5 py-16 sm:px-8 sm:py-20">
+    <section className="bg-surface px-4 py-12 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-center text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+        <h2 className="text-center text-2xl font-extrabold tracking-tight text-balance text-ink sm:text-4xl">
           The <span className="text-brand">Blazly AI-DAAS</span> Framework
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-sm text-ink-soft">
           Our approach is built around four connected capabilities:
         </p>
 
-        <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+        <div className="mt-8 grid gap-8 sm:mt-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
           {items.map(({ n, label, title, desc, icon: Icon }, i) => (
             <div
               key={n}
@@ -436,9 +437,9 @@ function AnalyzeSection() {
   }
 
   return (
-    <section className="px-5 py-10 sm:px-8 sm:py-14">
-      <div className="mx-auto max-w-5xl overflow-hidden rounded-[1.75rem] bg-linear-to-br from-brand-deep via-[#311496] to-brand-bright px-5 py-12 text-center text-white sm:px-10 sm:py-16">
-        <h2 className="text-2xl font-extrabold tracking-tight sm:text-4xl">
+    <section className="px-4 py-8 sm:px-8 sm:py-14">
+      <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl bg-linear-to-br from-brand-deep via-[#311496] to-brand-bright px-4 py-9 text-center text-white sm:rounded-[1.75rem] sm:px-10 sm:py-16">
+        <h2 className="text-xl font-extrabold tracking-tight text-balance sm:text-4xl">
           What Does AI Know About Your Business
         </h2>
         <p className="mt-3 text-sm text-white/80 sm:text-base">
@@ -446,7 +447,7 @@ function AnalyzeSection() {
         </p>
 
         <form
-          className="mx-auto mt-8 flex max-w-2xl flex-col gap-3 rounded-2xl bg-white p-2 shadow-xl sm:flex-row sm:items-center"
+          className="mx-auto mt-7 flex max-w-2xl flex-col gap-2 rounded-2xl bg-white p-2 shadow-xl sm:mt-8 sm:flex-row sm:items-center sm:gap-3"
           onSubmit={handleAnalyze}
         >
           <div className="flex min-w-0 flex-1 items-center gap-2 px-3">
@@ -461,14 +462,14 @@ function AnalyzeSection() {
                 if (error) setError('')
               }}
               placeholder="Enter Your Website URL"
-              className="w-full border-0 bg-transparent py-2.5 text-sm text-ink outline-none placeholder:text-ink-soft/70"
+              className="w-full min-w-0 border-0 bg-transparent py-2.5 text-base text-ink outline-none placeholder:text-ink-soft/70 sm:text-sm"
               aria-invalid={Boolean(error)}
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-deep px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand disabled:cursor-not-allowed disabled:opacity-70"
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-deep px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
           >
             {loading ? 'Analyzing…' : 'Analyze My Business'}
             {!loading ? <ArrowRight size={15} /> : null}
@@ -481,7 +482,7 @@ function AnalyzeSection() {
 
         {loading ? (
           <p className="mx-auto mt-4 max-w-2xl text-sm text-white/75">
-            Asking Firebase Gemini how AI currently discovers and describes your business…
+            Analyzing how AI currently discovers and describes your business…
           </p>
         ) : null}
 
@@ -530,19 +531,19 @@ function AnalyzeSection() {
           </div>
         ) : null}
 
-        <div className="mx-auto mt-10 flex max-w-3xl items-center gap-4">
+        <div className="mx-auto mt-8 flex max-w-3xl items-center gap-3 sm:mt-10 sm:gap-4">
           <div className="h-px flex-1 bg-white/20" />
-          <p className="text-[11px] font-semibold tracking-[0.2em] text-white/70 uppercase">
+          <p className="shrink-0 text-[11px] font-semibold tracking-[0.14em] text-white/70 uppercase sm:tracking-[0.2em]">
             What You&apos;ll Get
           </p>
           <div className="h-px flex-1 bg-white/20" />
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-5 flex flex-col items-stretch justify-center gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
           {pills.map((p) => (
             <span
               key={p}
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-medium text-white backdrop-blur-sm"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-xs font-medium text-white backdrop-blur-sm sm:w-auto"
             >
               <Check size={14} className="text-[#c4b5fd]" />
               {p}
@@ -575,14 +576,14 @@ function OperatingSystemSection() {
   ]
 
   return (
-    <section className="relative px-5 py-16 sm:px-8 sm:py-24">
-      <div className="pointer-events-none absolute top-10 right-0 h-64 w-64 opacity-40 dot-grid" />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-2">
-        <div>
-          <p className="flex items-center gap-2 text-[11px] font-bold tracking-[0.18em] text-brand uppercase">
-            <Gauge size={14} /> AI-DAAS Operating System
+    <section className="relative px-4 py-12 sm:px-8 sm:py-24">
+      <div className="pointer-events-none absolute top-10 right-0 hidden h-64 w-64 opacity-40 sm:block dot-grid" />
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-2 lg:gap-14">
+        <div className="min-w-0">
+          <p className="flex items-center gap-2 text-[11px] font-bold tracking-[0.14em] text-brand uppercase sm:tracking-[0.18em]">
+            <Gauge size={14} className="shrink-0" /> AI-DAAS Operating System
           </p>
-          <h2 className="mt-4 text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+          <h2 className="mt-4 text-2xl font-extrabold leading-tight tracking-tight text-balance text-ink sm:text-4xl">
             Discoverability isn&apos;t a score.
             <br />
             <span className="text-brand">It&apos;s an operating system.</span>
@@ -604,7 +605,7 @@ function OperatingSystemSection() {
         <OsCycleDiagram />
       </div>
 
-      <div className="mx-auto mt-16 grid max-w-6xl gap-3 rounded-2xl border border-line bg-white p-4 shadow-[0_16px_40px_-30px_rgba(33,3,84,0.4)] sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:p-2">
+      <div className="mx-auto mt-10 grid max-w-6xl gap-3 rounded-2xl border border-line bg-white p-3 shadow-[0_16px_40px_-30px_rgba(33,3,84,0.4)] sm:mt-16 sm:grid-cols-2 sm:p-4 lg:grid-cols-4 lg:gap-0 lg:p-2">
         {traits.map(({ icon: Icon, title, desc }, i) => (
           <div
             key={title}
@@ -631,13 +632,13 @@ function OsCycleDiagram() {
       desc: 'Understand your AI visibility.',
       icon: Search,
       x: 50,
-      y: 8,
+      y: 12,
     },
     {
       title: 'Represent',
       desc: 'Build your digital presence.',
       icon: Target,
-      x: 88,
+      x: 80,
       y: 50,
     },
     {
@@ -645,114 +646,131 @@ function OsCycleDiagram() {
       desc: 'Strengthen authority and relevance.',
       icon: Shield,
       x: 50,
-      y: 92,
+      y: 90,
     },
     {
       title: 'Evolve',
       desc: 'Monitor, adapt and improve continuously.',
       icon: RefreshCw,
-      x: 12,
+      x: 20,
       y: 50,
     },
   ]
 
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[440px]">
-      {/* Soft concentric glow */}
-      <div className="absolute inset-[18%] rounded-full bg-[radial-gradient(circle,rgba(77,11,182,0.08)_0%,transparent_70%)]" />
-      <div className="absolute inset-[28%] rounded-full border border-brand/10" />
-
-      {/* Curved clockwise arrows */}
-      <svg
-        viewBox="0 0 100 100"
-        className="absolute inset-0 h-full w-full"
-        aria-hidden
-      >
-        <defs>
-          <marker
-            id="os-arrow"
-            markerWidth="4"
-            markerHeight="4"
-            refX="3"
-            refY="2"
-            orient="auto"
-          >
-            <path d="M0 0 L4 2 L0 4 Z" fill="#7c3aed" />
-          </marker>
-        </defs>
-        {/* Top-right arc */}
-        <path
-          d="M62 18 A34 34 0 0 1 82 38"
-          fill="none"
-          stroke="#a78bfa"
-          strokeWidth="0.7"
-          markerEnd="url(#os-arrow)"
-        />
-        {/* Right-bottom arc */}
-        <path
-          d="M82 62 A34 34 0 0 1 62 82"
-          fill="none"
-          stroke="#a78bfa"
-          strokeWidth="0.7"
-          markerEnd="url(#os-arrow)"
-        />
-        {/* Bottom-left arc */}
-        <path
-          d="M38 82 A34 34 0 0 1 18 62"
-          fill="none"
-          stroke="#a78bfa"
-          strokeWidth="0.7"
-          markerEnd="url(#os-arrow)"
-        />
-        {/* Left-top arc */}
-        <path
-          d="M18 38 A34 34 0 0 1 38 18"
-          fill="none"
-          stroke="#a78bfa"
-          strokeWidth="0.7"
-          markerEnd="url(#os-arrow)"
-        />
-      </svg>
-
-      {/* Center mark */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative flex h-28 w-28 items-center justify-center sm:h-32 sm:w-32">
-          <div className="absolute inset-[-18%] rounded-full bg-[radial-gradient(circle,rgba(236,72,153,0.18)_0%,rgba(59,130,246,0.08)_45%,transparent_70%)] blur-sm" />
-          <svg viewBox="0 0 64 64" className="relative h-16 w-16 drop-shadow-md sm:h-[4.5rem] sm:w-[4.5rem]">
-            <defs>
-              <linearGradient id="bolt" x1="0.15" y1="0" x2="0.85" y2="1">
-                <stop offset="0%" stopColor="#fbbf24" />
-                <stop offset="28%" stopColor="#fb923c" />
-                <stop offset="55%" stopColor="#ec4899" />
-                <stop offset="78%" stopColor="#8b5cf6" />
-                <stop offset="100%" stopColor="#3b82f6" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M38 4L16 34.5h13.5L24 60l26-34H36.5L38 4z"
-              fill="url(#bolt)"
-            />
-          </svg>
-        </div>
+    <>
+      <div className="mx-auto w-full max-w-sm sm:hidden">
+        {nodes.map(({ title, desc, icon: Icon }, i) => (
+          <div key={title}>
+            <div className="flex items-start gap-3 rounded-2xl border border-line bg-white p-3.5 shadow-sm">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#ddd6fe] bg-white text-brand shadow-[0_6px_18px_-8px_rgba(77,11,182,0.45)]">
+                <Icon size={18} strokeWidth={1.75} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[11px] font-bold tracking-[0.12em] text-brand uppercase">
+                  {title}
+                </p>
+                <p className="mt-0.5 text-xs leading-snug text-ink-soft">{desc}</p>
+              </div>
+            </div>
+            {i < nodes.length - 1 ? (
+              <div className="flex justify-center py-1.5 text-brand">
+                <ArrowRight size={16} className="rotate-90" />
+              </div>
+            ) : null}
+          </div>
+        ))}
       </div>
 
-      {/* Nodes */}
-      {nodes.map(({ title, desc, icon: Icon, x, y }) => (
-        <div
-          key={title}
-          className="absolute w-[7.5rem] -translate-x-1/2 -translate-y-1/2 text-center sm:w-36"
-          style={{ left: `${x}%`, top: `${y}%` }}
+      <div className="relative mx-auto hidden aspect-square w-full max-w-[440px] sm:block">
+        <div className="absolute inset-[18%] rounded-full bg-[radial-gradient(circle,rgba(77,11,182,0.08)_0%,transparent_70%)]" />
+        <div className="absolute inset-[28%] rounded-full border border-brand/10" />
+
+        <svg
+          viewBox="0 0 100 100"
+          className="absolute inset-0 h-full w-full"
+          aria-hidden
         >
-          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#ddd6fe] bg-white text-brand shadow-[0_6px_18px_-8px_rgba(77,11,182,0.45)] sm:h-12 sm:w-12">
-            <Icon size={18} strokeWidth={1.75} />
-          </span>
-          <p className="mt-2 text-[11px] font-bold tracking-[0.12em] text-brand uppercase sm:text-xs">
-            {title}
-          </p>
-          <p className="mt-0.5 text-[10px] leading-snug text-ink-soft sm:text-[11px]">{desc}</p>
+          <defs>
+            <marker
+              id="os-arrow"
+              markerWidth="4"
+              markerHeight="4"
+              refX="3"
+              refY="2"
+              orient="auto"
+            >
+              <path d="M0 0 L4 2 L0 4 Z" fill="#7c3aed" />
+            </marker>
+          </defs>
+          <path
+            d="M62 18 A34 34 0 0 1 82 38"
+            fill="none"
+            stroke="#a78bfa"
+            strokeWidth="0.7"
+            markerEnd="url(#os-arrow)"
+          />
+          <path
+            d="M82 62 A34 34 0 0 1 62 82"
+            fill="none"
+            stroke="#a78bfa"
+            strokeWidth="0.7"
+            markerEnd="url(#os-arrow)"
+          />
+          <path
+            d="M38 82 A34 34 0 0 1 18 62"
+            fill="none"
+            stroke="#a78bfa"
+            strokeWidth="0.7"
+            markerEnd="url(#os-arrow)"
+          />
+          <path
+            d="M18 38 A34 34 0 0 1 38 18"
+            fill="none"
+            stroke="#a78bfa"
+            strokeWidth="0.7"
+            markerEnd="url(#os-arrow)"
+          />
+        </svg>
+
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="relative flex h-28 w-28 items-center justify-center md:h-32 md:w-32">
+            <div className="absolute inset-[-18%] rounded-full bg-[radial-gradient(circle,rgba(236,72,153,0.18)_0%,rgba(59,130,246,0.08)_45%,transparent_70%)] blur-sm" />
+            <svg viewBox="0 0 64 64" className="relative h-16 w-16 drop-shadow-md md:h-[4.5rem] md:w-[4.5rem]">
+              <defs>
+                <linearGradient id="bolt" x1="0.15" y1="0" x2="0.85" y2="1">
+                  <stop offset="0%" stopColor="#fbbf24" />
+                  <stop offset="28%" stopColor="#fb923c" />
+                  <stop offset="55%" stopColor="#ec4899" />
+                  <stop offset="78%" stopColor="#8b5cf6" />
+                  <stop offset="100%" stopColor="#3b82f6" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M38 4L16 34.5h13.5L24 60l26-34H36.5L38 4z"
+                fill="url(#bolt)"
+              />
+            </svg>
+          </div>
         </div>
-      ))}
-    </div>
+
+        {nodes.map(({ title, desc, icon: Icon, x, y }) => (
+          <div
+            key={title}
+            className="absolute w-28 -translate-x-1/2 -translate-y-1/2 text-center md:w-36"
+            style={{ left: `${x}%`, top: `${y}%` }}
+          >
+            <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-[#ddd6fe] bg-white text-brand shadow-[0_6px_18px_-8px_rgba(77,11,182,0.45)] md:h-12 md:w-12">
+              <Icon size={18} strokeWidth={1.75} />
+            </span>
+            <p className="mt-2 text-[11px] font-bold tracking-[0.12em] text-brand uppercase md:text-xs">
+              {title}
+            </p>
+            <p className="mt-0.5 text-[10px] leading-snug text-ink-soft md:text-[11px]">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </>
   )
 }
 
@@ -767,23 +785,23 @@ function LevelsSection() {
   ]
 
   return (
-    <section className="px-5 py-16 sm:px-8 sm:py-20">
+    <section className="px-4 py-12 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <p className="text-center text-[11px] font-bold tracking-[0.18em] text-brand uppercase">
+        <p className="text-center text-[11px] font-bold tracking-[0.14em] text-brand uppercase sm:tracking-[0.18em]">
           ✨ Built around your business objective ✨
         </p>
-        <h2 className="mt-3 text-center text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+        <h2 className="mt-3 text-center text-2xl font-extrabold tracking-tight text-balance text-ink sm:text-4xl">
           Every level of your business.
           <br />
           <span className="text-brand">Discoverable by AI.</span>
         </h2>
         <div className="mx-auto mt-4 h-1 w-12 rounded-full bg-brand" />
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-4 lg:grid-cols-3 xl:grid-cols-6">
           {levels.map(({ icon: Icon, title, desc }) => (
             <div
               key={title}
-              className="flex flex-col items-center rounded-2xl border border-line bg-white px-4 py-6 text-center shadow-sm"
+              className="flex flex-col items-center rounded-2xl border border-line bg-white px-3 py-5 text-center shadow-sm sm:px-4 sm:py-6"
             >
               <Icon size={28} className="text-brand" strokeWidth={1.5} />
               <h3 className="mt-4 text-base font-bold text-ink">{title}</h3>
@@ -829,23 +847,23 @@ function LeverageSection() {
   ]
 
   return (
-    <section className="px-5 py-16 sm:px-8 sm:py-24">
+    <section className="px-4 py-12 sm:px-8 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <p className="text-center text-[11px] font-bold tracking-[0.2em] text-brand-muted uppercase">
+        <p className="text-center text-[11px] font-bold tracking-[0.14em] text-brand-muted uppercase sm:tracking-[0.2em]">
           Flexible · Scalable · Impactful
         </p>
-        <h2 className="mt-3 text-center text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+        <h2 className="mt-3 text-center text-2xl font-extrabold tracking-tight text-balance text-ink sm:text-4xl">
           Three Ways to Leverage <span className="text-brand">AI-DAAS</span>
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-sm text-ink-soft">
           Different organisations have different levels of internal capability.
         </p>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:mt-12 sm:gap-5 md:grid-cols-3">
           {tiers.map(({ icon: Icon, title, subtitle, body }) => (
             <article
               key={title}
-              className="rounded-2xl bg-[#4d0bb5] p-6 text-white shadow-lg shadow-brand/25 sm:p-7"
+              className="rounded-2xl bg-[#4d0bb5] p-5 text-white shadow-lg shadow-brand/25 sm:p-7"
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/40">
                 <Icon size={18} />
@@ -879,48 +897,48 @@ function FinalCta({ onPrimary }: { onPrimary: () => void }) {
   ]
 
   return (
-    <section className="relative overflow-hidden px-5 pb-20 pt-10 sm:px-8 sm:pb-28">
-      <div className="pointer-events-none absolute top-0 left-0 h-48 w-40 opacity-50 wave-dots" />
-      <div className="pointer-events-none absolute top-0 right-0 h-48 w-40 opacity-50 wave-dots" />
+    <section className="relative overflow-hidden px-4 pb-16 pt-8 sm:px-8 sm:pb-28 sm:pt-10">
+      <div className="pointer-events-none absolute top-0 left-0 hidden h-48 w-40 opacity-50 sm:block wave-dots" />
+      <div className="pointer-events-none absolute top-0 right-0 hidden h-48 w-40 opacity-50 sm:block wave-dots" />
 
       <div className="relative mx-auto max-w-3xl text-center">
         <p className="text-sm text-ink-soft">
           The future of business discovery is already evolving.
         </p>
-        <h2 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl">
+        <h2 className="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-balance text-ink sm:text-4xl">
           Is your organisation ready to be{' '}
           <span className="text-brand">discovered by AI?</span>
         </h2>
 
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <div className="mt-7 flex flex-col items-stretch justify-center gap-3 sm:mt-8 sm:flex-row sm:items-center">
           <button
             type="button"
             onClick={onPrimary}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition hover:bg-brand-bright sm:w-auto"
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 text-center text-sm leading-snug font-semibold text-white shadow-lg shadow-brand/25 transition hover:bg-brand-bright sm:w-auto sm:px-5 sm:py-3.5"
           >
-            <Sparkles size={15} />
-            Request an AI Discoverability Assessment
-            <ArrowRight size={15} />
+            <Sparkles size={15} className="shrink-0" />
+            <span>Request an AI Discoverability Assessment</span>
+            <ArrowRight size={15} className="shrink-0" />
           </button>
           <a
             href="https://www.blazly.ai/"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-line bg-white px-5 py-3.5 text-sm font-semibold text-brand transition hover:border-brand/30 sm:w-auto"
+            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-line bg-white px-5 py-3.5 text-sm font-semibold text-brand transition hover:border-brand/30 sm:w-auto"
           >
             Talk to Blazly
-            <ArrowRight size={15} />
+            <ArrowRight size={15} className="shrink-0" />
           </a>
         </div>
       </div>
 
-      <div className="mx-auto mt-20 max-w-3xl text-center">
-        <p className="text-[11px] font-bold tracking-[0.2em] text-brand uppercase">
+      <div className="mx-auto mt-14 max-w-3xl text-center sm:mt-20">
+        <p className="text-[11px] font-bold tracking-[0.16em] text-brand uppercase sm:tracking-[0.2em]">
           — Blazly AI-DAAS —
         </p>
-        <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+        <h3 className="mt-2 text-xl font-extrabold tracking-tight text-balance text-ink sm:text-3xl">
           AI Discoverability <span className="text-brand">as a Service</span>
         </h3>
 
-        <div className="relative mt-12 grid grid-cols-2 gap-8 sm:grid-cols-4">
+        <div className="relative mt-10 grid grid-cols-2 gap-6 sm:mt-12 sm:grid-cols-4 sm:gap-8">
           <div className="pointer-events-none absolute top-5 right-[12%] left-[12%] hidden h-px bg-line sm:block" />
           {steps.map(({ icon: Icon, label }) => (
             <div key={label} className="relative flex flex-col items-center">
@@ -933,7 +951,7 @@ function FinalCta({ onPrimary }: { onPrimary: () => void }) {
           ))}
         </div>
 
-        <p className="mt-14 text-sm text-ink-soft sm:text-base">
+        <p className="mt-10 text-sm text-ink-soft sm:mt-14 sm:text-base pb-[max(0px,env(safe-area-inset-bottom))]">
           You built the business.{' '}
           <span className="font-semibold text-brand">
             We help make its full depth visible to AI.

@@ -19,6 +19,9 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
@@ -26,12 +29,22 @@
     font-family: var(--font-sans);
     color: var(--color-ink);
     background: #fff;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 
   * {
     box-sizing: border-box;
+  }
+
+  img,
+  svg,
+  video,
+  iframe {
+    max-width: 100%;
   }
 
   button,
@@ -39,6 +52,18 @@
   textarea,
   select {
     font: inherit;
+  }
+
+  button {
+    touch-action: manipulation;
+  }
+
+  @media (max-width: 639px) {
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+    }
   }
 }
 
@@ -52,5 +77,14 @@
     background-image: radial-gradient(rgba(77, 11, 182, 0.18) 1.2px, transparent 1.2px);
     background-size: 14px 14px;
     mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
