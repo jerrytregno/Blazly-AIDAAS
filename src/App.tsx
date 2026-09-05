@@ -37,8 +37,8 @@ import videoThumbnail from './assets/video-thumbnail.png'
 import { AssessmentModal } from './components/AssessmentModal'
 import { analyzeWebsite, type AnalyzeResult } from './lib/analyzeWebsite'
 
-const VIDEO_SRC =
-  'https://drive.google.com/file/d/1uGNU0-IaW3xLwQDo7ICV2KJ64Ze5Vz3G/preview'
+const VIDEO_ID = 'wXrvTGUvR0s'
+const VIDEO_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1`
 
 export default function App() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -196,42 +196,44 @@ function VideoSection() {
   const [playing, setPlaying] = useState(false)
 
   return (
-    <section className="mx-auto max-w-5xl px-4 py-12 sm:px-8 sm:py-20">
-      <h2 className="text-center text-2xl font-extrabold tracking-tight text-balance text-ink sm:text-4xl">
+    <section className="mx-auto w-full max-w-5xl px-4 py-12 sm:px-8 sm:py-20">
+      <h2 className="text-center text-[1.375rem] font-extrabold tracking-tight text-balance text-ink sm:text-4xl">
         See How AI Sees Your Business
       </h2>
-      <div className="mt-10 overflow-hidden rounded-2xl border border-line shadow-sm">
-        <div className="relative aspect-video w-full bg-ink">
+      <div className="mt-6 overflow-hidden rounded-xl border border-line shadow-sm sm:mt-10 sm:rounded-2xl">
+        <div className="relative aspect-video w-full max-w-full bg-ink">
           {playing ? (
             <iframe
               title="AI Discoverability demo"
               src={VIDEO_SRC}
-              className="absolute inset-0 h-full w-full border-0"
-              allow="autoplay; encrypted-media"
+              className="absolute inset-0 h-full w-full max-w-none border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
             />
           ) : (
             <button
               type="button"
               onClick={() => setPlaying(true)}
-              className="group absolute inset-0 flex items-center justify-center"
+              className="group absolute inset-0 flex min-h-[44px] w-full items-center justify-center"
               aria-label="Play video"
             >
               <img
                 src={videoThumbnail}
                 alt="Blazly AI-DAAS — AI Discoverability as a Service"
                 className="absolute inset-0 h-full w-full object-cover"
+                draggable={false}
               />
-              <span className="relative flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-brand shadow-lg transition group-hover:scale-105 group-hover:bg-white sm:h-20 sm:w-20">
-                <Play size={28} className="ml-1 fill-brand" />
+              <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-white/95 text-brand shadow-lg transition active:scale-95 group-hover:scale-105 group-hover:bg-white sm:h-20 sm:w-20">
+                <Play size={24} className="ml-0.5 fill-brand sm:ml-1 sm:size-7" />
               </span>
             </button>
           )}
         </div>
       </div>
-      <div className="mt-10">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-glow bg-white px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.14em] text-brand uppercase shadow-sm">
-          <Sparkles size={12} /> The shift is here
+      <div className="mt-6 sm:mt-10">
+        <span className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-brand-glow bg-white px-3 py-1.5 text-[10px] font-semibold tracking-[0.12em] text-brand uppercase shadow-sm sm:px-3.5 sm:text-[11px] sm:tracking-[0.14em]">
+          <Sparkles size={12} className="shrink-0" /> The shift is here
         </span>
       </div>
     </section>
