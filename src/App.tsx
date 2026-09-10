@@ -37,8 +37,22 @@ import videoThumbnail from './assets/video-thumbnail.png'
 import { AssessmentModal } from './components/AssessmentModal'
 import { analyzeWebsite, type AnalyzeResult } from './lib/analyzeWebsite'
 
-const VIDEO_ID = 'wXrvTGUvR0s'
-const VIDEO_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1`
+const VIDEO_ID = '2yXPovwJkok'
+
+function getVideoEmbedSrc() {
+  const params = new URLSearchParams({
+    autoplay: '1',
+    rel: '0',
+    modestbranding: '1',
+    playsinline: '1',
+    enablejsapi: '1',
+    fs: '1',
+  })
+  if (typeof window !== 'undefined') {
+    params.set('origin', window.location.origin)
+  }
+  return `https://www.youtube.com/embed/${VIDEO_ID}?${params.toString()}`
+}
 
 export default function App() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -194,6 +208,7 @@ function PreviewCard() {
 
 function VideoSection() {
   const [playing, setPlaying] = useState(false)
+  const embedSrc = getVideoEmbedSrc()
 
   return (
     <section className="mx-auto w-full max-w-5xl px-4 py-12 sm:px-8 sm:py-20">
@@ -202,18 +217,18 @@ function VideoSection() {
       </h2>
       <div className="mt-6 overflow-hidden rounded-xl border border-line shadow-sm sm:mt-10 sm:rounded-2xl">
         <div className="relative aspect-video w-full max-w-full bg-ink">
-          {playing ? (
-            <iframe
-              title="AI Discoverability demo"
-              src={VIDEO_SRC}
-              className="absolute inset-0 h-full w-full max-w-none border-0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin"
-            />
-          ) : (
-            <button
-              type="button"
+          <iframe
+            name="blazly-demo-video"
+            title="AI Discoverability demo"
+            className="absolute inset-0 h-full w-full max-w-none border-0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+            allowFullScreen
+            referrerPolicy="origin"
+          />
+          {!playing && (
+            <a
+              href={embedSrc}
+              target="blazly-demo-video"
               onClick={() => setPlaying(true)}
               className="group absolute inset-0 flex min-h-[44px] w-full items-center justify-center"
               aria-label="Play video"
@@ -227,7 +242,7 @@ function VideoSection() {
               <span className="relative flex h-14 w-14 items-center justify-center rounded-full bg-white/95 text-brand shadow-lg transition active:scale-95 group-hover:scale-105 group-hover:bg-white sm:h-20 sm:w-20">
                 <Play size={24} className="ml-0.5 fill-brand sm:ml-1 sm:size-7" />
               </span>
-            </button>
+            </a>
           )}
         </div>
       </div>
